@@ -1,7 +1,19 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 
 const Header = () => {
+
+  const {user, logoutUser} = useContext(AuthContext);
+
+  const handleLogOut=()=>{
+    logoutUser()
+    .then(()=>{
+      alert('User Logged ')
+    })
+    .catch(error => console.log(error.message))
+  }
 
     const links = <>
         <li><NavLink  to="/"
@@ -33,6 +45,7 @@ const Header = () => {
             </ul>
           </div>
           <a className="btn btn-ghost normal-case text-xl">DaisyUI</a>
+          {user && <span>{user.email}</span> }
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -40,7 +53,12 @@ const Header = () => {
           </ul>
         </div>
         <div className="navbar-end">
-         <Link to="/login"> <button className="btn  btn-sm btn-primary">Login</button></Link>
+        {
+          user?.uid
+           ? <button onClick={handleLogOut}  className="btn  btn-sm btn-primary">Sign Out</button>
+            :<Link to="/login"> <button className="btn  btn-sm btn-secondary">Login</button></Link>
+          }
+         
         </div>
       </div>
         </div>

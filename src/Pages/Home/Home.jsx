@@ -8,7 +8,7 @@ const Home = () => {
 
     return (
         <div>
-            Home: {user}
+            Home: {user && user.email}
         </div>
     );
 };
