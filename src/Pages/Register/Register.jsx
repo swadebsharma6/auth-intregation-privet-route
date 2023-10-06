@@ -1,3 +1,4 @@
+import { sendEmailVerification } from "firebase/auth";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
@@ -18,7 +19,12 @@ const Register = () => {
         createUser(email, password)
         .then(result =>{
             const user = result.user;
-            console.log('created user', user);
+              // user email verify
+              sendEmailVerification(user)
+              .then(()=>{
+                  console.log('Please Verify your Email.')
+              })
+             console.log('created user', user);
             alert('User created successfully')
         })
         .catch(error =>{

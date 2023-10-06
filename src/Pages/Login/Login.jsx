@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 
 const Login = () => {
+
+    const {signInUser} = useContext(AuthContext);
     
     const handleSubmit =(event) =>{
         event.preventDefault();
@@ -8,7 +12,24 @@ const Login = () => {
 
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        console.log(email, password);
+        // login user
+        signInUser(email,password)
+        .then(result =>{
+            const user = result.user;
+            
+            if(!user.emailVerified){
+            alert('Please Verify your email first');
+            return;
+            }
+            console.log('login user', user);
+            alert('User Logged successful')
+           
+        })
+        .catch(error =>{
+            console.log(error.message)
+        })
+
     }
 
 
